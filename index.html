@@ -9,72 +9,80 @@ curriculum_vitae.sql
 -- estado : disponible · Madrid · permiso UE
 -- ============================================
 Luis Miguel Marte
+Luis Miguel Marte
 Analista de Reporting Financiero y Control de Datos
-📍 Madrid, 28043
+📍 Madrid
 ·
 641 27 19 72
 ·
 lmiguelmarter@gmail.com
 ·
-LinkedIn
+LinkedIn ↗
 ·
-Permiso trabajo UE +5 años
--- 1. perfil profesional
-SELECT CONCAT('perfil', '+', 'resumen') AS presentacion;
-Analista financiero con más de 3 años de experiencia en entornos bancarios de alta exigencia, especializado en reporting de gestión y regulatorio, reconciliación de datos y control financiero. Experto en consolidar y validar información procedente de múltiples sistemas, elaborar informes para dirección y mejorar la calidad del dato en procesos regulatorios y de negocio. Manejo avanzado de SQL, Power BI y Excel (MOS). Perfil orientado a resultados, acostumbrado a trabajar con plazos ajustados y colaborar con equipos de negocio y tecnología.
+Permiso UE +5 años
+SELECT CONCAT('perfil','+','resumen') AS presentacion;-- 1. perfil profesional
+Analista financiero con más de 3 años de experiencia en entornos bancarios de alta exigencia, especializado en reporting de gestión y regulatorio, reconciliación de datos y control financiero. Experto en consolidar y validar información procedente de múltiples sistemas, elaborar informes para dirección y mejorar la calidad del dato. Manejo avanzado de SQL, Power BI y Excel (MOS). Perfil orientado a resultados, acostumbrado a plazos ajustados y colaboración con equipos de negocio y tecnología.
 -- 1 row returned · 0 errors
--- 2. experiencia profesional
-SELECT cargo, empresa, periodo, logros_clave
-FROM experiencia
-ORDER BY fecha_inicio DESC;
+SELECT cargo,empresa,periodo,logros_clave FROM experiencia ORDER BY fecha_inicio DESC;-- 2. experiencia profesional
 cargo	empresa	periodo	logros_clave
 Analista Reporting Financiero y Control	Banco Popular	Sep 2024 – Jul 2025	
 Consolidación y automatización de flujos de reporting regulatorio y de gestión mediante SQL, integrando datos de múltiples sistemas internos y mejorando la trazabilidad del dato en el cierre periódico.
 Reconciliación y validación de datos financieros entre sistemas de origen y capas de reporting, con identificación de discrepancias y coordinación de su resolución con áreas de negocio y TI.
 Diseño y mantenimiento de cuadros de mando en Power BI para seguimiento de KPIs financieros (márgenes, variaciones presupuestarias, evolución de cartera), con distribución periódica a dirección.
-Colaboración con equipos técnicos en la detección de errores sistémicos y documentación de procesos de reporting regulatorio, contribuyendo a la mejora de la calidad del dato.
+Colaboración con equipos técnicos en detección de errores sistémicos y documentación de procesos de reporting regulatorio, contribuyendo a la mejora de la calidad del dato.
 Analista Seguimiento Cartera de Crédito	Banco Popular	Mar 2023 – Sep 2024	
 Validación y contraste de datos financieros de múltiples fuentes de reporting interno mediante SQL y SAS, garantizando consistencia y fiabilidad antes de su distribución a dirección y riesgos.
 Elaboración de informes analíticos de seguimiento de cartera crediticia (exposición, concentración, morosidad, LTV) para alta dirección y área de riesgos, con periodicidad mensual y trimestral.
 Seguimiento de indicadores clave de riesgo de crédito y soporte analítico directo a la función de control en la toma de decisiones.
-Extracción, transformación y consolidación de información de reporting en plataformas internas (SQL, SAS Enterprise), contribuyendo a la estandarización del proceso de producción de informes.
+Extracción, transformación y consolidación de información de reporting en plataformas internas (SQL, SAS Enterprise), contribuyendo a la estandarización del proceso.
 Analista Junior Control Operacional	BANDEX	Abr 2021 – Abr 2023	
 Soporte a procesos de control interno financiero-operacional y elaboración de informes de gestión para dirección general.
 -- 3 rows returned · ORDER BY fecha_inicio DESC
--- 3. formación académica
-SELECT titulacion, institucion, anio_fin
-FROM formacion
-WHERE nivel IN ('master', 'grado', 'certificacion');
+SELECT titulacion,institucion,anio_fin FROM formacion WHERE nivel IN ('master','grado','certificacion');-- 3. formación académica
 titulacion	institucion	anio_fin
 Programa de Actualización Profesional	Santander Open Academy	2026
 Máster en Finanzas	EUDE Business School, Madrid	2024
-Grado en Administración y Dirección de Empresas (ADE)	Instituto Tecnológico de Santo Domingo	2022
+Grado en Administración y Dirección de Empresas	INTEC, Santo Domingo	2022
 -- 3 rows returned
--- 4. habilidades técnicas
-SELECT herramienta, nivel, notas
-FROM skills
-ORDER BY nivel DESC;
+SELECT * FROM certificaciones WHERE emisor = 'Santander Open Academy' ORDER BY fecha_obtencion DESC;-- 4. certificaciones 2026
+📊
+Excel – De Intermedio a Avanzado
+Santander Open Academy · Abr 2026 · 8h
+✓ verificado
+🔬
+Introducción a la Ciencia de Datos
+Santander Open Academy · Abr 2026 · 6h
+✓ verificado
+🐍
+Python
+Santander Open Academy · Ene 2026 · 8h
+✓ verificado
+🤖
+Microsoft Copilot
+Santander Open Academy · Ene 2026 · 8h
+✓ verificado
+-- 4 rows returned · click en cada tarjeta para ver detalles
+SELECT herramienta,nivel,notas FROM skills ORDER BY nivel DESC;-- 5. habilidades técnicas
 herramienta
 SQL
-consultas complejas · joins · subqueries · validación
+consultas complejas · joins · validación
 herramienta
 Excel avanzado
-MOS certificado · tablas dinámicas · Power Query
+MOS · tablas dinámicas · Power Query
 herramienta
 Power BI
-dashboards financieros · DAX · modelado de datos
+dashboards · DAX · modelado datos
 herramienta
 SAS Enterprise
-análisis estadístico · tratamiento de datos
+análisis estadístico · datos
 herramienta
 Python
 pandas · numpy · automatización
 entorno
 Banca regulada
-reporting regulatorio · control interno · Agile
+reporting regulatorio · Agile · KPIs
 -- 6 rows returned · ORDER BY nivel DESC
--- 5. competencias clave (palabras clave ATS)
-SELECT competencia FROM skills WHERE tipo = 'soft + domain';
+SELECT competencia FROM skills WHERE tipo = 'domain';-- 6. palabras clave ATS
 Reporting financiero regulatorio
 Reconciliación de datos
 Control financiero
@@ -86,15 +94,17 @@ Calidad del dato
 Entornos bancarios regulados
 Metodología Agile
 Inteligencia Artificial
-Gestión de cartera crediticia
--- 12 rows returned
--- 6. idiomas
-SELECT idioma, nivel FROM idiomas;
+Microsoft Copilot
+Ciencia de datos
+-- 13 rows returned
+SELECT idioma,nivel FROM idiomas;-- 7. idiomas
 idioma	nivel
 Español	Nativo
 Inglés	Avanzado (C1)
 -- 2 rows returned
 -- query ejecutada correctamente · 0 errores · listo para entrevista
 ▶
-contactar · lmiguelmarter@gmail.com
-→ linkedin.com/in/luis-miguel-marte-
+contactar por email
+↗
+ver LinkedIn
+-- Madrid · disponibilidad inmediata · permiso de trabajo UE +5 años
