@@ -243,7 +243,7 @@
         <span style="float:right;font-size:10px;margin-top:2px">-- 1. perfil profesional</span>
       </div>
       <div class="profile-box">
-        Analista financiero con  <span class="hl-green">4 años de experiencia</span> en entornos bancarios de alta exigencia, especializado en <span class="hl-blue">reporting de gestión y regulatorio</span>, reconciliación de datos y control financiero. Experto en consolidar y validar información procedente de múltiples sistemas, elaborar informes para dirección y mejorar la calidad del dato. Manejo avanzado de <span class="hl-orange">SQL, Power BI y Excel (MOS)</span>. Perfil orientado a resultados, acostumbrado a plazos ajustados y colaboración con equipos de negocio y tecnología.
+        Analista financiero con <span class="hl-green">4 años de experiencia</span> en entornos bancarios de alta exigencia, especializado en <span class="hl-blue">reporting de gestión y regulatorio</span>, reconciliación de datos y control financiero. Experto en consolidar y validar información procedente de múltiples sistemas, elaborar informes para dirección y mejorar la calidad del dato. Manejo avanzado de <span class="hl-orange">SQL, Power BI y Excel (MOS)</span>. Perfil orientado a resultados, acostumbrado a plazos ajustados y colaboración con equipos de negocio y tecnología.
       </div>
       <div class="rows">-- <span>1</span> row returned · 0 errors</div>
     </div>
@@ -426,13 +426,9 @@
           <textarea class="match-textarea" id="match-input" placeholder="-- Pega aquí la descripción de la oferta de trabajo...
 -- Ejemplo: 'Buscamos analista financiero con experiencia en reporting, SQL y Power BI...'"></textarea>
           <button class="match-btn" id="match-btn" onclick="runMatch()">
-            <span>▶</span> EXECUTE MATCH_ANALYSIS()
+            <span>↗</span> ABRIR ANÁLISIS EN CLAUDE.AI
           </button>
-          <div class="match-loading" id="match-loading">
-            <div style="font-size:13px;margin-bottom:8px">Analizando compatibilidad<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
-            <div style="font-size:10.5px;color:var(--text-muted)">-- ejecutando JOIN entre tu oferta y el perfil de Luis...</div>
-          </div>
-          <div class="match-result" id="match-result"></div>
+          <div style="margin-top:8px;font-size:10.5px;color:var(--text-muted)">-- se abrirá una nueva pestaña con el análisis ya preparado</div>
         </div>
       </div>
       <div class="rows" id="match-rows" style="display:none">-- <span id="match-rows-val">1</span> row returned · análisis completado</div>
@@ -492,116 +488,57 @@ function openModal(id) {
   document.getElementById('modal').classList.add('open');
 }
 // ── MATCH ANALYZER ──────────────────────────────────────
-const LUIS_PROFILE = `
-Nombre: Luis Miguel Marte
-Cargo objetivo: Analista de Reporting Financiero y Control de Datos
-Experiencia: 3+ años en banca (Banco Popular, BANDEX)
-Habilidades técnicas: SQL (avanzado), Power BI (intermedio-avanzado), Excel avanzado (MOS certificado), SAS Enterprise, Python (básico-intermedio)
-Dominio: reporting financiero regulatorio, reporting de gestión, reconciliación y validación de datos, control financiero, seguimiento de KPIs, análisis de riesgo de crédito, calidad del dato, cuadros de mando, entornos bancarios regulados
-Formación: Máster en Finanzas (EUDE Business School Madrid, 2024), Grado en ADE (INTEC, 2022)
-Certificaciones 2026: Excel avanzado, Python, Copilot, Introducción a la Ciencia de Datos (Santander Open Academy)
-Idiomas: Español nativo, Inglés C1
-Ubicación: Madrid · Permiso de trabajo UE +5 años
-Disponibilidad: inmediata
-`;
-
-async function runMatch() {
+function runMatch() {
   const input = document.getElementById('match-input').value.trim();
   if (!input || input.length < 20) {
-    document.getElementById('match-input').focus();
-    document.getElementById('match-input').style.borderColor = 'var(--red)';
-    setTimeout(() => document.getElementById('match-input').style.borderColor = 'var(--border)', 1500);
+    const ta = document.getElementById('match-input');
+    ta.focus();
+    ta.style.borderColor = 'var(--red)';
+    ta.placeholder = '-- ⚠ Pega primero la descripción de la oferta...';
+    setTimeout(() => {
+      ta.style.borderColor = 'var(--border)';
+      ta.placeholder = "-- Pega aquí la descripción de la oferta de trabajo...\n-- Ejemplo: 'Buscamos analista financiero con experiencia en reporting, SQL y Power BI...'";
+    }, 2000);
     return;
   }
-  const btn = document.getElementById('match-btn');
-  const loading = document.getElementById('match-loading');
-  const result = document.getElementById('match-result');
-  const rows = document.getElementById('match-rows');
 
-  btn.disabled = true;
-  loading.classList.add('visible');
-  result.classList.remove('visible');
-  rows.style.display = 'none';
-  result.innerHTML = '';
+  const prompt = `Eres un recruiter senior especializado en perfiles financieros en España. Analiza la compatibilidad entre este candidato y la oferta de trabajo que te paso.
 
-  const prompt = `Eres un recruiter senior especializado en perfiles financieros en España.
+PERFIL DEL CANDIDATO — Luis Miguel Marte:
+- Cargo objetivo: Analista de Reporting Financiero y Control de Datos
+- Experiencia: 3+ años en banca (Banco Popular como Analista de Reporting Financiero y Control, y Analista de Seguimiento de Cartera de Crédito; BANDEX como Analista Junior de Control Operacional)
+- Habilidades técnicas: SQL avanzado, Power BI (dashboards, DAX), Excel avanzado MOS certificado, SAS Enterprise, Python básico-intermedio
+- Dominio: reporting financiero regulatorio y de gestión, reconciliación y validación de datos, control financiero, KPIs financieros, análisis de riesgo de crédito, calidad del dato, entornos bancarios regulados
+- Formación: Máster en Finanzas EUDE Business School Madrid (2024), Grado ADE INTEC (2022)
+- Certificaciones 2026: Excel avanzado, Python, Microsoft Copilot, Introducción a la Ciencia de Datos (Santander Open Academy)
+- Idiomas: Español nativo, Inglés C1
+- Ubicación: Madrid · Permiso trabajo UE +5 años · Disponibilidad inmediata
 
-Perfil del candidato:
-${LUIS_PROFILE}
-
-Oferta de trabajo:
+OFERTA DE TRABAJO:
 ${input}
 
-Analiza la compatibilidad y responde ÚNICAMENTE con este JSON (sin markdown, sin backticks, sin explicaciones extra):
-{
-  "score": <número del 0 al 100>,
-  "verdict": "<texto corto: ej. 'Perfil muy alineado', 'Buen candidato', 'Candidato viable', 'Encaje limitado'>",
-  "verdict_sub": "<una frase de contexto, máximo 15 palabras>",
-  "fortalezas": ["<punto 1>", "<punto 2>", "<punto 3>"],
-  "gaps": ["<gap 1 o 'Sin gaps relevantes detectados'>", "<gap 2 opcional>"],
-  "tip": "<consejo concreto de 1-2 frases para que Luis adapte su candidatura a esta oferta específica>"
-}`;
+Por favor analiza en detalle:
+1. Puntuación de compatibilidad del 0 al 100
+2. Veredicto general (ej: "Perfil muy alineado", "Buen candidato", "Encaje limitado")
+3. Las 3 principales fortalezas de Luis para esta oferta concreta
+4. Los gaps o puntos de mejora (si no hay, indícalo)
+5. Un consejo específico para que Luis adapte su candidatura a esta oferta`;
 
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await res.json();
-    const text = data.content?.[0]?.text || '';
-    const clean = text.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
-    renderMatch(parsed);
-  } catch(e) {
-    result.innerHTML = '<div style="color:var(--red);font-size:12px;padding:12px 0">-- ERROR: no se pudo completar el análisis. Inténtalo de nuevo.</div>';
-    result.classList.add('visible');
-  } finally {
-    btn.disabled = false;
-    loading.classList.remove('visible');
-  }
-}
+  const encoded = encodeURIComponent(prompt);
+  const url = `https://claude.ai/new?q=${encoded}`;
+  window.open(url, '_blank');
 
-function renderMatch(d) {
-  const score = d.score || 0;
-  const scoreClass = score >= 75 ? 'score-high' : score >= 50 ? 'score-mid' : 'score-low';
-
-  const fortalezasHTML = (d.fortalezas || []).map(f => `<li>${f}</li>`).join('');
-  const gapsHTML = (d.gaps || []).filter(g => g).map(g => `<li>${g}</li>`).join('');
-
-  const html = `
-    <div class="match-score-row ${scoreClass}">
-      <div class="match-score-circle">
-        <span class="match-score-num">${score}</span>
-        <span class="match-score-pct">/ 100</span>
-      </div>
-      <div class="match-verdict">
-        <div class="match-verdict-label" style="color:${score>=75?'var(--green)':score>=50?'var(--yellow)':'var(--red)'}">${d.verdict || ''}</div>
-        <div class="match-verdict-sub">${d.verdict_sub || ''}</div>
-      </div>
-    </div>
-    <div class="match-grid">
-      <div class="match-col">
-        <div class="match-col-title" style="color:var(--green)">✓ fortalezas detectadas</div>
-        <ul class="match-list ok">${fortalezasHTML}</ul>
-      </div>
-      <div class="match-col">
-        <div class="match-col-title" style="color:var(--yellow)">△ posibles gaps</div>
-        <ul class="match-list gap">${gapsHTML || '<li>Sin gaps relevantes detectados</li>'}</ul>
-      </div>
-    </div>
-    ${d.tip ? `<div class="match-tip"><strong>-- consejo:</strong> ${d.tip}</div>` : ''}
-  `;
-
-  const result = document.getElementById('match-result');
-  result.innerHTML = html;
-  result.classList.add('visible');
-  document.getElementById('match-rows').style.display = 'block';
-  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Show confirmation feedback
+  const btn = document.getElementById('match-btn');
+  const original = btn.innerHTML;
+  btn.innerHTML = '<span>✓</span> Abriendo análisis en Claude...';
+  btn.style.background = 'var(--green)';
+  btn.style.color = 'var(--bg)';
+  setTimeout(() => {
+    btn.innerHTML = original;
+    btn.style.background = '';
+    btn.style.color = '';
+  }, 3000);
 }
 
 function closeModalDirect() { document.getElementById('modal').classList.remove('open'); }
