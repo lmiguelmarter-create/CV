@@ -1,426 +1,119 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Luis Miguel Marte — Analista Reporting Financiero | Madrid | SQL · Power BI · Excel</title>
-  <meta name="description" content="CV de Luis Miguel Marte — Analista de Reporting Financiero y Control de Datos en Madrid. SQL, Power BI, Excel, entornos bancarios regulados."/>
-  <meta name="keywords" content="analista reporting financiero, control datos, SQL, Power BI, Excel, banca, Madrid, reconciliación, KPIs"/>
-  <meta property="og:title" content="Luis Miguel Marte · Analista Reporting Financiero"/>
-  <meta property="og:description" content="Madrid · SQL · Power BI · Excel · Banca regulada · 3+ años"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --bg:#0d1117; --surface:#161b22; --surface2:#1c2128; --border:#30363d;
-      --green:#3fb950; --green-dim:#238636; --green-glow:rgba(63,185,80,0.12);
-      --blue:#58a6ff; --purple:#bc8cff; --orange:#ffa657; --yellow:#e3b341;
-      --red:#f85149; --text:#e6edf3; --text-dim:#8b949e; --text-muted:#484f58;
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;min-height:100vh;overflow-x:hidden}
-    body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);pointer-events:none;z-index:9999}
-    .shell{max-width:880px;margin:0 auto;padding:40px 20px 80px}
-    /* TOP BAR */
-    .topbar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;padding:11px 18px}
-    .dot{width:12px;height:12px;border-radius:50%}
-    .dot-r{background:#ff5f57}.dot-y{background:#febc2e}.dot-g{background:#28c840}
-    .tab-title{margin-left:10px;color:var(--text-dim);font-size:11.5px;letter-spacing:.04em}
-    .tab-title span{color:var(--green)}
-    .badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-glow);border:1px solid var(--green-dim);color:var(--green);font-size:10px;padding:2px 9px;border-radius:20px;margin-left:auto}
-    .badge::before{content:'●';font-size:7px;animation:blink 2s ease infinite}
-    /* TERMINAL */
-    .terminal{background:var(--surface);border:1px solid var(--border);border-radius:0 0 10px 10px;padding:32px 36px 44px;box-shadow:0 24px 64px rgba(0,0,0,.55),0 0 0 1px rgba(63,185,80,.04)}
-    /* FILE HEADER */
-    .file-hdr{margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
-    .file-name{color:var(--blue);font-size:13px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-    .file-name::before{content:'📄';font-size:14px}
-    .comment{color:var(--text-muted)}
-    .comment span{display:block;margin-bottom:2px}
-    /* HERO */
-    .hero{display:flex;align-items:center;gap:28px;margin:28px 0 24px;animation:fadeUp .6s ease both}
-    .avatar-wrap{flex-shrink:0;position:relative}
-    .avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--green-dim);box-shadow:0 0 0 4px var(--green-glow),0 0 20px var(--green-glow)}
-    .avatar-ring{position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--green);opacity:.4;animation:pulse 3s ease-in-out infinite}
-    .hero-text{}
-    .hero-name{font-size:clamp(24px,4.5vw,38px);font-weight:700;color:var(--green);letter-spacing:-.02em;line-height:1.1;text-shadow:0 0 40px var(--green-glow)}
-    .hero-title{font-size:13.5px;color:var(--text-dim);margin-top:5px;font-weight:300}
-    .hero-title span{color:var(--purple)}
-    .contact-line{display:flex;flex-wrap:wrap;gap:5px 18px;margin-top:12px;font-size:11.5px;color:var(--text-dim)}
-    .contact-line a{color:var(--blue);text-decoration:none;transition:color .2s}
-    .contact-line a:hover{color:var(--green)}
-    /* SECTION */
-    .section{margin:30px 0 0;animation:fadeUp .5s ease both}
-    .section:nth-child(2){animation-delay:.06s}.section:nth-child(3){animation-delay:.12s}
-    .section:nth-child(4){animation-delay:.18s}.section:nth-child(5){animation-delay:.24s}
-    .section:nth-child(6){animation-delay:.30s}.section:nth-child(7){animation-delay:.36s}
-    .section:nth-child(8){animation-delay:.42s}
-    .sq{color:var(--text-muted);font-size:11.5px;margin-bottom:11px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-    .kw{color:var(--purple)}.fn{color:var(--blue)}.str{color:var(--orange)}
-    .col{color:var(--green)}.tbl{color:var(--red)}.op{color:var(--text-dim)}
-    /* PROFILE */
-    .profile-box{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:0 6px 6px 0;padding:15px 20px;font-size:12.5px;line-height:1.85;color:var(--text)}
-    .hl-green{color:var(--green);font-weight:600}
-    .hl-blue{color:var(--blue);font-weight:500}
-    .hl-orange{color:var(--orange);font-weight:500}
-    /* TABLE */
-    .sql-table{width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:6px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
-    .sql-table thead tr{background:var(--surface2)}
-    .sql-table th{color:var(--text-dim);font-weight:500;padding:8px 13px;text-align:left;border-bottom:1px solid var(--border);border-right:1px solid var(--border);white-space:nowrap}
-    .sql-table th:last-child{border-right:none}
-    .sql-table td{padding:10px 13px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);vertical-align:top}
-    .sql-table td:last-child{border-right:none}
-    .sql-table tr:last-child td{border-bottom:none}
-    .sql-table tbody tr{transition:background .15s}
-    .sql-table tbody tr:hover{background:rgba(63,185,80,.04)}
-    .c-cargo{color:var(--text);font-weight:500}
-    .c-emp{color:var(--orange)}
-    .c-per{color:var(--yellow);white-space:nowrap}
-    .c-log ul{padding:0;list-style:none}
-    .c-log li{display:flex;gap:7px;margin-bottom:5px;color:var(--text-dim)}
-    .c-log li::before{content:'–';color:var(--green);flex-shrink:0}
-    /* SKILLS GRID */
-    .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:6px}
-    .sk{background:var(--surface);padding:12px 15px;transition:background .15s}
-    .sk:hover{background:var(--surface2)}
-    .sk-label{color:var(--text-muted);font-size:10px;margin-bottom:3px}
-    .sk-val{color:var(--text);font-size:12px;font-weight:500}
-    .sk-note{color:var(--text-muted);font-size:10px;margin-top:3px}
-    .bar{display:flex;gap:3px;margin-top:5px}
-    .bd{width:8px;height:8px;border-radius:2px;background:var(--border)}
-    .bf{background:var(--green)}.bm{background:var(--green-dim)}
-    /* PILLS */
-    .pills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px}
-    .pill{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-size:10.5px;color:var(--text-dim);cursor:default;transition:all .2s}
-    .pill:hover{border-color:var(--green);color:var(--green);background:var(--green-glow)}
-    /* CERTS */
-    .certs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:6px}
-    .cert-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
-    .cert-card:hover{border-color:var(--green);box-shadow:0 0 16px var(--green-glow);transform:translateY(-2px)}
-    .cert-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--blue));opacity:0;transition:opacity .2s}
-    .cert-card:hover::before{opacity:1}
-    .cert-icon{font-size:20px;margin-bottom:8px}
-    .cert-title{color:var(--text);font-size:12px;font-weight:600;margin-bottom:4px}
-    .cert-meta{color:var(--text-muted);font-size:10.5px}
-    .cert-badge{display:inline-block;background:var(--green-glow);border:1px solid var(--green-dim);color:var(--green);font-size:9px;padding:1px 7px;border-radius:10px;margin-top:6px}
-    /* MODAL */
-    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-    .modal-overlay.open{display:flex}
-    .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;max-width:520px;width:90%;position:relative;animation:fadeUp .3s ease both}
-    .modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;font-family:inherit;line-height:1}
-    .modal-close:hover{color:var(--red)}
-    .modal-title{color:var(--green);font-size:14px;font-weight:700;margin-bottom:4px}
-    .modal-subtitle{color:var(--text-dim);font-size:11px;margin-bottom:16px}
-    .modal-detail{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-    .modal-row{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:8px 12px}
-    .modal-row-label{color:var(--text-muted);font-size:10px}
-    .modal-row-val{color:var(--text);font-size:12px;margin-top:2px}
-    .modal-serial{font-size:10px;color:var(--text-muted);margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
-    .modal-serial span{color:var(--yellow)}
-    /* ROWS */
-    .rows{font-size:10.5px;color:var(--text-muted);margin-top:7px;font-style:italic}
-    .rows span{color:var(--green)}
-    /* DOWNLOAD */
-    .dl-section{margin-top:40px;padding-top:22px;border-top:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:12px}
-    .dl-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-    .btn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--green);color:var(--green);font-family:inherit;font-size:12px;padding:9px 22px;border-radius:4px;cursor:pointer;text-decoration:none;transition:all .2s;letter-spacing:.04em}
-    .btn:hover{background:var(--green-glow);box-shadow:0 0 20px var(--green-glow)}
-    .btn-blue{border-color:var(--blue);color:var(--blue)}
-    .btn-blue:hover{background:rgba(88,166,255,.1);box-shadow:0 0 20px rgba(88,166,255,.15)}
-    .dl-note{font-size:10.5px;color:var(--text-muted);font-style:italic}
-    /* CURSOR */
-    .cursor{display:inline-block;width:9px;height:15px;background:var(--green);animation:blink 1.1s step-end infinite;vertical-align:middle;margin-left:3px;border-radius:1px}
-    /* ANIMATIONS */
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-    @keyframes pulse{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.08);opacity:.2}}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-    /* RESPONSIVE */
-    @media(max-width:640px){
-      .shell{padding:12px 10px 60px}
-      .terminal{padding:20px 16px 28px}
-      .hero{flex-direction:column;align-items:flex-start;gap:16px}
-      .skills-grid{grid-template-columns:repeat(2,1fr)}
-      .certs-grid{grid-template-columns:1fr}
-      .sql-table th:nth-child(3),.sql-table td:nth-child(3){display:none}
-      .modal-detail{grid-template-columns:1fr}
-    }
-  </style>
-</head>
-<body>
-<div class="shell">
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-    <span class="tab-title"><span>curriculum_vitae.sql</span> — versión <span>2026</span></span>
-    <span class="badge">activo en búsqueda</span>
-  </div>
 
-  <!-- TERMINAL -->
-  <div class="terminal">
-
-    <!-- FILE HEADER -->
-    <div class="file-hdr">
-      <div class="file-name">curriculum_vitae.sql</div>
-      <div class="comment">
-        <span>-- ============================================</span>
-        <span>-- curriculum_vitae.sql</span>
-        <span>-- candidato  : Luis Miguel Marte</span>
-        <span>-- versión     : 2026</span>
-        <span>-- estado      : disponible · Madrid · permiso UE</span>
-        <span>-- ============================================</span>
-      </div>
-    </div>
-
-    <!-- HERO -->
-    <div class="hero">
-      <div class="avatar-wrap">
-        <div class="avatar-ring"></div>
-        <img class="avatar" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA3ADcAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAEhASADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKr399Dp1u00zYUcADqT6CgCaSRIUZ3YIi8lmOAK57UPGMURKWkfnt/fbhf8TWDq2sT6vJ8/yQg/JEDwPc+pqmi8HirS7jsXbnxBqN2SDctGD0EXy4/Ec1TaWZzl5XY+pYmgDLVIi5qhkaRYxUyx1Ikf0qUJmmMg8vJHpTwmOP51MUxg0oTJpgV/KJFOEfOO1WNmO1KEpgQiPFMZOMVbEZzQYqAM5kOTSCP0FaHkU8WwA5AoJaKccZqdY+tWBAM9Kesee1BRB5XTB4pPLIq35fHTNO8sEdKAKZU96TZVsx47Uwpn0oArFMUmMVOV7YpjLkHigCuwppdwvDH86mK5FRspC8daAK7s5yCxP41Wk/WrUpI61RuZAoyetArkEz7Qc1iX92EBqbUL8KT6Vz1zM0rHk4NOxLZU1PXbuEM0FzNG46MkhBrm5/jh4t8MTL5GqSXCZ5jvAJgfxbn8iK3L2xeWI7V471w2vaBwzMvT1osjJtnu/w+/aGtfESRxa1ZjT52wPPt8tET7qeV/WvX7e4iu4UmhkWWJxlXQ5BH1r4z8J2vlyqvTBr23wZrt1oRHlt5kDffhJ4PuPQ1nKHYqLuex0VU0zU4NWtVngbKngg9VPoat1kWNkkWKNnchUUZJPYVwWsam+sXRflYV4jT0Hr9a3vF1+Y4EtEPzS/M/8Aujp+v8q5lYx9SK1iuoXsMSM7RxxU8Nu0hIAJFPjjBABrX0+2UAHFOTsWtShDoc0g3bgB6U59LkiHOG+ldJFGAgpskYI5wayTZbSOaWHBAIINOC44q9PCqucCmCEYBxWy2IK4jJxwaesftU4SnbPamTcrmOlEZFWAnTrT1jzQFyuE46Uuz1HFWxGB0oEQNAXKojzmnCP8KnMWD6/hTGZIkZ5CERRksxwBQFxgTmnLH+VeBfFz9t/4V/CVZ4pdch1vUYThrLS3Ez59Mjj9a+dvEn/BW7RyJF8PeD5pcLxJfXSqc/7oH9adhc1j9Ctme1NKY+hr8u9N/wCCtPjCG+IvvC+ky27H5URnVsfXdg19S/AH9trSfi/Jp1vqSadpl5ev5KRR3XzLJjcFKsQTwDyOM9M0rdQUkz6eKAnpSGMU9B5gHQg9xzVhbYev5UrmiTKTRj3qBkK1oywbBx0qo6g0XJZVZaqysVBq7MQoNYmo3wjDDNUhXIry88vPIzWFfaiGPByaparq+JNu7rVa2zdMNuWOaolsGiknk5yR61Zg0hyQdvHpW1p+kEgMw5rXSw2qOKCTmJNKxCcjFcT4psgsTgDBwea9YurUeWeK898W2/7t6CZHLeHbXbMuBk16XpcBEK5FcR4dtcSqcZ5r0nTbfEK8dqAjsaeg6lLo12HGWhfiRPUev1FeixSrNGsiEMjDII7ivNhF8w4rrPCl6Whe1bqnzJ9O4/P+dZTj1NDC1qf7VrVyxPyo3lgemOP55pqKMD1NVNxknlc5yzE/rV2LjANWloMkRfyq/aXHlEZ+7VVBnA7VOqAChxGnbY14r2Ig5bAHSmTXiAfKcms5RyakVc4FZqKQ+ZiMSzEngGnquRjFKI+BTwuAKskaq4o2560/A+tO2jFAEYTBGaeq4pcZpegoAXFI7BFySAB1LdK57x/8QNB+GHhPUPEviS/j0/SbFDJLM55PoFH8THoAK/K79p7/AIKda78SDqHhvwHDJoXhm4HlnUGXy72VOh53YUH0HNOwr62PvD4p/tzfCn4TNImpatcajIrtEF0yITBnXhgDuAODwT0r85f2rf8AgoNr/wAbIZ9J0eefwz4W3EJZ28m2a6HYzOO2P4Rx9a+Pb3UZp791SdpnZuCzEnJ96rXVsHl+dissXDnduBPtgDFO1halybV7q4tyUcrGTnC98+9UorueF85IP61E9xNKqrEjMoPIA5rT+yyXbQSKmCAMgdfypisPmvJJowQQwAydw6VseHdWvGeCOKXypYmyrBsH25rLWEC4mjdGcYK5AwR6GtANZyrJBFGYZ4kBRh1f1z70nqhI+qvg5+3P8TPhSsNlHrH9p2CAYsNb/eIV4+4+dw+gOK+7Pg//AMFGPAXjZLa08Uq3g7U5MKHmfzbVj6+YB8v0YY96/Gm88Q3M0kKy4ZFUKyheuB1zXQ2WrRTWLGN9rKDkSDOR/nvWbTWppGXQ/obttUtdTtIrizuYru2lUNHNC4dHB6EEVDNIEGSa/E/9nz9r3xn+z9qcUdjqTan4ddlFxo165eMLnJMeeUbGeR+INfrX8Pvi9oHxa8G2fiHw9eLdWdwvK5G+J+6OOzD0/Gmgvfc6u/v9gJzxXMajdtNuxV53a5JHXNOh0cuMsCR1q0ScJqEUk9wOwrpPD1nt256VYv8ARQr5xgVoaTbbXA96YG7Z24WMcDNW/K+XpUltF+7AxU/lACgdjHu4sRnivPPFsGEbg16feQ5U1554wjAjbNNESOf8PJ+8GRXo2npiJfauE8OQgspxzmvRLCP92ufSkwh5kwiNXtIf7NqULdMttP48VGkY/AU5MI6kDoc0nqjQyEIBFXYSGxWU1ysfXmpre9U9DimI2ozmrMabyBWbBdqcDPJrQtZgZBSYXNGK1XALcmnNbr2FPjORUpGAazuVYplSCR0NGOcU5iNx4oxVCBV4pQmM96XpxTgcGgBFQVk+LPFGleCPD1/rmt3sWn6VZRGWe5lOAqj+Z9hWuCM1+V//AAU7/asl1jxTH8MtEmC6VpjifUZEfJuJx0jIB4UUCbtqeD/tx/tQ6t+0B4lmLnUNO8N20gOkWKvsikg/57Sp1Lt1GQOK+U3vZppVyWYYwDIckVq614iuvEd/Nc3knmSzNnAOFA9AOwqKz0C41K4jihACk4O3kCh+6rsIpv1M+GciXy0XMhOcj/61dfoXg+TU3JeNy7HOxVx/OvVPA/watUtYpp1Vpm5y4zivXfDXwz0+12Hazn0zgV4tfMYQ0ietSwMp2cjxDw78HLi7iDBPLI65WtW5+DN1bR/6tQCRzjkflX07p/h62tEAVMEjsMCtJdAhdCsiB89MivLeY1b3voeksDStY+Q2+EV+AWQoznsVyTVWb4WXkMDZhG8DIZeor7Ebw3BFnbGufYVBP4XgcZMYxj0qlmdRCeX0+h8VXHga4nuPMa3ZJMfMNmAx+naoNR8G3UG2aBHUHAZSOD7V9hXXgy2lf7i4+lZOs+B4pdPkiVAWYdSBkV1QzFyaucs8BGKdj441OMvFGFT9/F8pwPvCvrn/AIJvfFy88PfEl/B9xIx0nXQdqNn91cIMgj6gEH8K8Q8ZeCZ9KlldxsZAdvHDVnfBj4nXHwh+JOm+LLO0iu3spt0tvITtfqD9DXuU6qqRTR4s6bpuzP3c07SwACRk+layWgUdMACvIf2bv2nPCX7ROiyz6LIbPVbUAXWmXLASx/7S4PzLx1x9a9sZPlPAre/Yk5jVoBkcd6i06ECQcVd1bAbtVWzkAlAFMk6G3UBBUjCordxsBp7vnpTGmVrv7przvxkNyHivQL1wIzXAeKnDBhTRE3czPDSYdfWvQrAZQZrz/wAPsBKvHFd9ZuBEKGTHzL+QBikBANQiX3qMzCkWmcDfawEH3uR71DYa9vPU96y9ViJY545qDTbVs5oaYuY7i21fcV5xWxZan84IJzXHW8bKM/pW7okDzSD0zTsFztLPU3ZemRmrxvGcEYxVbTrLaoyK0lth2FS0ik2VFclhnv3qTd1qwLQegqQWoxnApXQyoGxSs4FWzbKV6c1XmtynShMZGJduT6V+Bn7Yirpvxr8UG6jiF3JezNKi8lWLcfp71+9rBgcc1+KH/BUjwTdeFP2k9SvjZ+RZazbxXMEqrhZGxhyPcHrTSsQ2fH6Tia7ijhUkcDB9e9fQnw/8IQ22nxyOm6V8NnHSvBvCyp/aUSkDezDGf1r6v8JKr2cOAM4FeRmFWUI2R6uBpqcrs7TQrLbHGCu0V3eh2YLDHftXNaNCdqccV3OhwNvXCjHevj5O7Z9KlY3LawV0UEc1oR6eAgAXA96mtbcKBkZHoK1I7YuoAGPrTirjMZ7EOrcdKqT2oUYxn2xXTNZsmQTyD0qldWpOQeKbVhJnJT2xD9APas26j7Dk4rpr2I7MMPxrn7uPYTxxRF2FLU8z+I3hlNYsX2j5gDxXybrVjJoviG4tACvOevQHpX2rrXIZc4B4r5O+L1obTxXKyPs3qVYn0zX0WX1G5cp4eOpxUeY6P4JfErU/gp490vxTpl15V3aygvbZO2ePPzK2DyCM1+6vhjxPZ+LfDGna1YSrNa31uk6OhyMMM4r+ddLyW8vF5Jb8uRX7UfsGajcah+zvpFvKXKWkjxRs6noTuxnPOCSM8fSvoFozxLntuu3AQEg4rFttTUTAk5JPrVrxMrqGrnLGzlluAeetapEN3O/tNSVogcmrP2vIzmsOztpEQEDFWSJF65p2ES311iM5OetefeKL3cSBXValI4jPX86878QSs8pFCRMmanh19zKeeld3ay4jWuT8IaY0yIxH416Na6MPLUY/OiwR2Md7ggcZNQSXgA962b3StinArldSR7dzjIosU/M5rUo/3nIyDU1hahcHHHvUl/H84yO9WrOMFRwfSqZmiaKAfga6Pw5bhj0PBrFRNpro/DgwR70uhodbaxYUVcCcVBAPlGKs56VzTZqNxilAzS0VDYBiopUyOmalpG5BpJgUnhBIx1r47/4Ki/CzSPGH7NeoeIJ7TzNW0CRZrWdTgorHDg+o/lX2WV+bIzXiH7bHhM+Mf2YPHtgqyMy2DTqsXUlPmra4rH8/HhqAya/aRxgsS2K+sPCluYIIgeoA4r52+FOlG58RSTvHlLZMgn1PSvbB42h8OzJC0TXFw/IjUcD6ntXi5herJQiexgmqa55HuPh+EyBRgV6LomnnCkcDjivlyw+NGsWDvnSQoX5hGO4+vT9K7bwp+0lLO4WawCFDgqHyw9frXj/Uai1Z6P1uF7I+nrHS22jK5FX1tNhxgiuB8J/GfS9ZgC7gkpUFVPVhXpOmaha6nGjqQCRml7BRVjVVVIge1JHI/lWdqFqVHQ5+tdFe39jp4xIwz9a5PW/Heh2wlE13HH5fXnpSdBtaB7VJmNqMLEc9u9c7qTBAQQSK0bzx3oUkRdL+Fl92H8qwZfEuk6uxS3u4nk/uBhmud0Zx6FqtFu1zk/Edx5SsQelfK3xP1Jb3Xnd1DInyljz+P6V9VeIbYS70PKnvXyN8W9PudD8VT2kp/wBHk/eo394E8flzXtZalz67nl49+5dGX4asY5tSSWU5j346dee1fux+yT8L5/hl8CdA069V0v7lWvZ45DkoZCWCn3C7QffNfid8CNDXxF8WvCOjz+Z9ju9UtklaNckIZF3Y/Ov6Ho4lito0XhVUAfSvoW7M8FHI67YrJkbc1S0zS1D8qK6HV0BPIyaZYxKMcVtfS5JJDp6iPAUCo5rEBen41rxoNtMkQMDxU31Bo47V7L5DxXmXiG2Mc3TvXsmrxAxngV5Z4pjHmHgdatGUzsvAdor2cRA6ivQIocLXCeAH22cQyOld9C2RUVDSnsVLyAbDkZ4rjtbslPbvXcXWNhrldVXe3IHWnDValSOFvV3Ff6Vbs1CqKq3vMi4q7Zj5R9K0MUTqu3vXQeHM7vasHHGK3vDnytUtGh2NuflFWQOBVa3Pyj3qyOlc0t7GiCikJ9qWoGHcUHpRQelCGQO20Ek4714J8S/2l/h/OmueDrm7upmmt5bS5uYIN0cO5SpJBILYz2Br1j4j6s2ieD9TuYziXyiqt0wTxX54/FOGPTNTglgi866AZ5No5ZT1zXmY3FSoSionqYPCRxEXKR8U+DPC0Ok6r4g8mQTwrfSRRSKCA6qxwQD611ul2Vnp14bq4RWkJ4Ldq0dD04XVxMQgQSzPIVA9WNU/iHo1zFaN9iIMpHGc8flXFOq6tTe1ztp0lTha17G3ceLfDz4E6Qsy8Z2g4rHvNQ8J37QvavbtKOgjYZ/KvM/DvhiPNyfEUVxeCRGSIRkhIiR94gdag8IfBzUzqtl9s8iTSobjzisG0TOvBxuwDyB0J4rqjh4JNuZjKvOTt7PQ938MxWYnhnjcqpPy4bivonwdqe+3jUuenY18yzWP9n6m0VjZ3lpYS/6pLvB2H0DAnNe8fDh5BpsZc4IXHJ615VRuEnrc9CMFKKdrM1/iFqEjRKUm8sg5DqeR6fzr598U2r3tw2boKWcvu9zXp3xV1CS3tgEyQW+Yj0rxW/0ldf0zUHbUJ7S78t/s0UcDEs/bLEYweOla0HKct7GNWPLHVXEh+H01988mqwKW6EqWI+nNXbz4dXscMb2mtGOVABujXbnH8q8VtbfxcmoWFo0mo2SBm8+e8ffERnrtx8uBgdTn2rp9H8b6npmstZXDO8YbassQYxye4zyK9GrTqxV1K5wwlSbs42Z7B4S1HUjv0vVi080a5juM53j0+v1rzb9pXQ41i0a7Aw7F0ZgOeOR/OvWvD0kktvFcPGdx5zjtXM/tB6X/AGh8P0uxgtaTgnPXa3H88VzYeovbJm2Ig1SaRhfsMaDHrX7RXhC3nEjSC6ElqYj9x48PuPqBt6elfu2Qdn4V+Pv7Mfw+n+GllpfjBpMeJ50xYhePIRx+mR1r9GvgD8UtY8VWz6X4iVH1BFLxXCceYueh9xmvSjjadSr7NHnzwVSFNVT0/UkJOaLPHFSaiM8e9NtBgCvWT0PN2ZoR/dpGA5pydKSQZArNblMxtXH7lq8u8VJluPWvUdVGY2FeX+KeGP5VvFGEjq/AYxaR+td/CDtFcH4EXFvHn0rv4fu1nUZpT2ILoHacVz2oJhfTmujuT8prCvl35pwehUjzm8JDCrli2UqjdybmBBqxay7UHNaPuYo0h0PrW3oB+auaiuQx65NdD4fnXcOc1PMmit2dpbfcWrI9+/eqVrKGUVbDDHWueW5siToKKZuBpwP4Vmxi0HpRSMcChAeY/tCX39n/AA5u5m/1ayJur4ke2uI4r7Xr1fOeRCY4iPlVMdK+zP2n4jcfCi/iXlnljA/OvjTxV4ttrDwHcRvIolNs0QU9QcYrwcek6yTPo8BJqg7Hzzp7CfULh4VCBpCQF4A56V0p8Ki+jDy857Vz3hZMygnp19c16lo9l9pVc8CvMnozupJW1OEk+H9tklGKH07VPF4TFmhZS0jjsq161a+Ho5DkxhvwzVjUtGt7CwluJgI41XJbp+FJSmja0TxZrJopkmvWMrg4jiPb8K9G8IRTQ22/btB/hrnbDR5b2/bVLqMxwK2Ioz6etej+H4oLi1dkeNNgzgnk1fxPUnY47xRaw3LGK5XMcncjpWVbeEHaBFlAeCPhH29BXYeKbT7ZaOsI3uB29a3PANuur6SFK/6RENskZ+8KlXT0HpY8ru/h5bXAIESsx/vVQT4Q2onDSRoSOwXpXu114cjVyyptYfhWXPp3kMflwe4PNaJyfUhqG9jz6DQU0+0a3C4UcDiue8c6Aup+Grq2OHRjGSD04dT/ACr0+7QOp3ryD6Vgzw28lzHDcpvt5GCuOmRnmqgmndbnNUtszsfDmmQXXhO3uIMm7VAViUcIg6AD6Yr3H4Manu8Q+HprdgfNfy3QDBGRgj+dcbo3guy8KxRfZJP9GkwyKWz8p54rsP2c9OSbx9PEBuhtJJZkI6AdP5mqoRftkjetK1CXofUF+KbbDmk1CQDjNFoc19ktj4t6svJ0xSPzSr9001jwajqUzJ1c7YSa8s8VkmQ/WvUdWbbEa8q8UNmb8a3jsYTO18Ct/osf0rvoj8lcD4GAFtGenFd7CVK1lULp7Ec53A1h3fBrbnIAOOKxb0jPXFECpHj82qoGGWpx1iOKP73NeX6h4nMLnc2CO2aq/wDCYiRBl8/jWdSsktDk5+yPSv8AhJVSTBcD2FdV4a11TtJYCvnm58TYmBB4rv8AwJrD38qZYkDHFclKs5Tsxp9T6I0/U1kQENnP61qpfqe/NchoxzGhyM4Fb8I969Dc6Lmslxu7/lUokqlCoOKtqBxUtFJ33JVk96GfrTQKGHWoKOC+N2knXPhrrUCH96kXnIfQrzX5ufE2MW3he7klO6aZlAP86/VHUtPi1SwubSZcwzIY3APOCMV8AftR/APxB4K8M393bQi80K3kEn2tHGUUngMvWvIxtCUpRnE9fBV1GEqbPmTwtMfPjGSvTjrXuXhmBGjTrk14B4dmKyhzxtr27wnf74I8kjj614c/iPZpp8p6RplqskmGBAHYVh/FwyN4fFvZoZSrhig6sBWjYa0kAJJzgdPSua17xDFPM7ls4/hpOWlkXH4tTz+4v7jxjp66ZDqbaDIo4fyN7bvQg0ljb+JdFha3H+nsnAuYxtD+5Hat1JxNN9oKjI6DFbFpqaFNu7aW42k9KcbvRjk1ujjtEvvFmi6r9tv10+XSHPKeawnB+h4r0DwF4jin8UzTW2fIdNrkfdzWNfWsc8pSWNXQDADCtrQJLWxVFjiSEDqFGKcnZ6Di01bqeozBLwBhgHrWNfW8eMEA89adaaissA2sfpVW9ujjkjFaKSaIascrq0SpK6jkCuW1mMkqB610Oq3W2Y84yetc9qLnbkAsQQBx3JqoPqc1Tc9PbxBqMlhpaeQUjWJUA5JXsC1fQ37Mvh5rDTtQ1aQHbNiGJz/Hg5Yj8f5V4n4Q0OfxFqmn6dADJLPhGwM4Xufwr7D0/TIdE0u3srVFjggQIqqMAYruy+g6lT2stjmx2I5KSpIdqN0SwwRirGnz7h1rH1Bzkc8VPp8x45r6i2lj5pPU6WNsjrTZHABqCKUleuKa8mQayS1KZmatJ+7PNeXeJG/ek+9ekas/ysK808SOFlwea1RjM6/wfc4hi57V6BbzgopzxXlPhm4KpGFOBXe2t0/ljqeKmSuXB2Rp3dyADz2rAu7sMcbqfqF44QnB6Vz09+S3Jx9aFoNu58j+I7gkthsNzzXMw6hKpwGBOas+KNQMdwVU5GcfWsqycNKvvXh1HeRzJX1OhhnNxs3DmvTfhxdrbzEFsGvK43CHOR6VuaBrZsLhSWNEZKDuUo21PrDRNSUxoNwrpYL9Sn3h6da+ftC8fx7UUyc11lp47EmAq5x6d69GFWLNr23PZ7S7DY5zWhHLu6f/AFq8y0fxG1xjqAfSu10y5MyA5/OuhO4J32N9X/OhiKghbIHepSM1FjUQ151+0L4ebxP8GPFligzI1i7qPdRu/pXowWobyyi1G1ntJ0DQzRtG6nupGCKmSvFpDg7NH4qaOnlqzY5B5FemeGJHdYmViq4xjpWL8T/B0/w5+J2v6HIhjS2un8vcP4Ccr+GKu+HL9Y3jUkc18ZWi1Jo+voyvBWOn8Qak2jWklwJWXK88149N8YYLO5kM8FxMxJ2/um2t+Ne1anp1rrNmpkIIX+HPWuT1HwFY6snktCuO2BjFRTlGPxIqS5tUzmdJ8b3ust+4iZB2GAoH5murtfEOrRBQ2nLOw5DHFLpXwrk06VTbq8gHIG0cV1MOiXSgwNbHzQODjpWu70R1xqU4pKRyep+PLjTykl7ZuqdwE4WoU+KuhyLujv4UkH3o5GANbuofDy81JmExdUP+z0rCb4M6XaS75IPOl65kApXiviMqqjKzgz0bwd4ni1WE+XKJV6gq2RW1fzkISxPFcZ4K8LReH7hmg/d25Gdo7Guk1e9QjAIOBWN9fdMb23Oe1O6JlkyeO1dx8CvAdt8RvH9hpmoQtNYKGmuEDFSUUdMjB64715ve3CtIzE8DtX1r+xF4RddK1bxLcQlROwtbdmHVRyxB9M8fhXqYOHPL3tjzsXPljdbnuvhf4e6B4LjKaPpsdoxGDLkvIfqzEmta5jJU+ta0sIwSOKqTR5BFfTU+WKtFHz0m5ayZy2pR4/OiwLA8Ve1G2DE8UtnbBQOK3vcy6l2Jztxihycc1YWD5eOaZJEQOlK5djndZJCkivMPEjFpuexr1TWIT5Zry3xDHtuDn1qkYTOh8JQl0jOM16HaQDaMDtXE+EcrGnHFegW2PKobsVDVGXqNsSh4riNbJtmByBzXoGoSBUbPpXmnjW+RWQKeSazbKZ8eeIoCt02RwD3rCF4lu/XGOK67xftiZ2IxivNr24zk57/lXkVIWbOW5066szfxDaeOvNXrbUVYj5ufWuGSdwBg5FauiNLdXaRKDk9q5Gm3YrmPTvDsnmXCFTk16fpAY4yM1xngvwxIXRyOw616ppXh91UHGPcV30qTS1Gnc2NA3rIo7eleo6C+Yhkdq4PRNJkjnUnOM16Lplt5aCvQirKzNIm3COBxU9RQA7eeKkzipZ0WAdTTlHNMzzUinB5pDR8X/wDBQT4Mz6hYWnj/AEm18ySzUQ6iEHPl/wAL4746Gvi/RdR2qsgPQetfqv8AH74w+A/g78PdR1Lx/qFvbaRNE0P2STDS3W4Y2JH1Y/oO9fjPc+P7CbX9QfTY5IdKmnaS1Sbh1jJyoP4V4+Kwzl7y6nq4XE8q5ZdD23SvEqtcBXZTG3A5zzXa6bJG7h87l65r5YPjNdOvklbhM5Gea9g8M+PILm2iAf5mQDrjNeVUw0oapHoUsTGUnFs9nh1tLdQqHJA7daksLu5uD5pjZOe/U1xuiatHMyswGc4JzXZx61bhVQbQUP3s9qzjBy1bsbynBbI0vtrOMNznrmsfU2U7iRjHtRqOt28auwk5Az8o7VwWt/EG3h81GcE9AB1FDpSk7C9pGK0NLUdbFqQqv05bHes3UNa3KpLdR615br/j2Oab91Lukzzg4/DFUbnx3vgG6T5iOeTxWqw0uxg8TFHoyaut3dLFvxk45PJNfqV8HNJj0T4Y+G7ONQoSzjbCjHJGSf1r8bfD+tyXOrRTt91GyDWH8M/+ChXxX+C3jO9jtNfk1rw6Lxv+JTqpM8KxhjwhPMf/AAEj6V7WCo3k4o8rFTckpM/eBhlcVVkUDNcB+zz8cNJ/aE+F+meMdJja2W5zHcWjnLW8y8MhP6g+hFegy8E16MU4tpnBuY98vzUWoHFLfnnpSWZrotoZ9TTQDbSOMihDlaRz1xUdSjE1hMoea8r8UKPOH1616rrB/dk15X4obL/jWy2MZnTeFiBGn0FdzA+Iq4Dwq+Ejye1dqswWLOeMdKGOOxQ1y68uFiDj5a8h8Y3LTyrtY5Br0TxHe7YX9MV5Nqt2JrjBPIPSueadtCZSPEfGtmzqcLyeMV5fd6ROZWG0gZzX0D440xVY/LivOtRtUjUnGDWdWHcwtc42DSyu0MprvfA3hkNqETlQenWubadEcZ9e9ei/D26jnIII3dBXNGC5h8p7b4W8OxRxodoBwO1egaVpKqB8oxXEaFqTQxoDyBjmu00jW42YLnFd0TWNjpLXTY0PQZrZtIwhHpWZa3aSHIOa0IJwW61ZqjSXg9eKcTmoUkDDg08sKzt1NB1effHr44+H/wBn74caj4s1+ZRFAu23tQ4V7mUj5UX+voK78MAM5r8SP+ClX7RN38XvjLd6FZXBPhrw8zWkCIciSUf6yQ88nPH4VrTpupKwm7Hgf7SP7RXin9o3x9d+IfEV67xklbSyVv3VrHnhEXp9T3rU0/S5NU8NafcwsUnWFcH1+teKXL7mHavo74f2LTeGrFRyPKHFcuPl7NKx2YWnzto5aLVncm2uspMnA3D+Rq3pfiHUvDTsQJJ7YnIYZJX6103iDwUt9FvC4YdGBwRXHTWGp6USBmSMcD1rkp1IVFZjnSnTeh6v4Y+NK29qsVxMGJ69jj0ro3+NEUcalSzA85U14JF4ggH7u8s8Mv8AHsrYsvE2monzBeOny1nPDw3SNI1ppWbPSNZ+OCuCIXkUt1AXJHtXGXHjPVdZMjIjxqTtMsvAx9OtZM/iaywfs8IaTplVqolxqGrylY4yg7nFXCEILaxnKUpPcs5+yP5k8xnuCeAp4Fa2jabc6rIPMyEzmpdC8ESTyxy3TM3PSvR9P0JLSEBU2gDrjrXNWrxirROmjh5Sd5GSduj2g2rgAdRXym9o174ouYwDjz3LfQE//Wr6i8Z3X2SylJYKcH8K+ephDb3txPHjfOxYnPSu7KIynOUicfaKUUfrP/wSZ8a2t18M/E/hdcLdWN+t4BkcxyIF/Qxn9K+75TkHmvxE/YQ/aAh+BPxjsb3UZdmgaon9n37MeI1Zl2y/8BYZPtur9t4riK6t0mhdZIpFDI6nIYEZBr1cRBwqX7nkwehlXzc80y2fkVJfj5j9aZaLyKhbCe5qRPkUOcA0kQ4pJjgcVJXQx9YOYjXlfiYES/jXqGsNiFsc15b4oP7z3zWyRhM2PDU21U56CuvE+YuvauE8PMRt59K65XJjAFOwos5rxXcMsUgB7V5VLIzXbZyQTXp3iWMyK2elcC1gxuWIz60mjNvU5Lxzeo3UjH/668o1++QoQrAEV2njSWWeIlAWPsK8s1HT7qZyfKcivNrzs7Cj5GHqeteSxAb5jXV/DnxBJHeooJx1Irj9Q8PXruu22c574rsfhz4bvF1OPfAyjjOawg25Jl6n0d4fvpri2jYMcEVrm5uomyhI9SKseENAC2sWVIOOldY3h4PGMLzXpKHmPlZV8NeILliFYk/Wu+0+5klxniuS0zRTBNnZxn0rsrC3KAcVaVjSKa3NaGRgKnDknrUCKQvvUkZweaGjVHhP7aX7QVn8BPgvql0Lny9e1ONrPTYkzuMjDBbjptHOa/CbUJpNRuri4uJGllmcu7ucliTkkn1Nfdv/AAVQ8b+JtW+KtjoF6kUfhqwgD2cUMiuzOfvyNjp6Yr4UuVG3cnI7j1r08NC0Lmcn2OY1KzMc6Ko4Y4Ar6c+GVts0e2iOcqgH0rwPT7ZLvU7cMNyhhj2NfSXgey8q0j2jDACvns4dtEetgNWdS2lC4UgLn3rHvPDG5uUAAPQiu3sEJ2hgef51oSacJcAgE+1fJKo4vc95wT3R5QfBttPlbiAN7EcUR/DTSiDm2XB9q9XTR4m/gwc85p39hxrhinHqK3WImupk6MH0PL4fAFjZ/cgUD0xV+z8HwggxxBfXIr0OTTY0wdijHfqaxvFHiHT/AAZo1zqN0GlSIA7VIG4k4AFONSrVfLHVshwp01zNaEen6ClquTjHvS6m8dtCdvUflXh2u/tI6nLvFnbWtrH/AA7lLyAe+SB+lcTf/GjxHqiMkt0wVv8AnntX+VevTybEzs5tI5Xj6MNIo6T4l+MYNRlmtrdyyoxEj9jjt+deXb/Om5OR1JqO91SS8bGcsx5I5ApI8IqoOXPXFfXYbDww1NU4nhVarrT5pGvpl35bNGeQeK/Y/wD4J1/tLwfFT4aweDdYuVHiXw9CsSb3+a6thwjgdyo+VvoD3r8ZbaNkYDv1Ndp4D+IusfDnxBaa3oOoT6Zqlq26G5t2wwPT8epyDW1WkqsddzBNxdz+hLUfvZ96is+WHNfnr8Df+Cnhuba00z4laeZZBhTrenr1HTdJF/Mr+Ar7c+HXxW8IfEq2W48M+IbDV0xkpBKPMUf7SH5h+VeZKlOG6K5kz0RDgVFMeKkT7uetRTnvWKWpp0MLWWxE1eWeKHxNjjrXp+tt+7avK/Ex/fZrVGEzV8O87PTFdgi/u64vw1KAq12UUuYhz2qmQjD1m1MoPXpXKHTisxOK7y5Abr6VjTwAOcAGlYVrnmb+CRdqCyZJ9amj+GVsVG+EE/SvVLLSk2jOKtiwVW6ZB7eleZJczuz0YwSWx5UPhbaSKP3Kj8K1dE+HFvY3IYRDPTgV6VFZpkDHHvV2KxTcMChJIvlSKOkaEkMagKABW2mnIo6VNDCIlHrXmfxZ/ah+G3wSt5T4n8SWsN8q5XTrY+dcufTYvT8cV0xvLREuKWrPS47BQwPQmm61r2j+EtMk1DWtStdKsohlri8mWJB+JIr80vjF/wAFZdY1GK5svh94fj0iNsqmpakRLMB6qg+UH65r4l+Ivxo8Z/Fe/N34p8R3+sykllW4lJRP91fuj8AK7IYeT+IwlNbI/WT4xf8ABTH4VfDnfa6BLceNdRXIxpw2wKfeRsZ/4CDXxF8Yv+ClXxR+I/nW2kXUPgvSmyBHppPnsPeU85/3cV8hmdsE5yRVCd3dsnJrqjSjHUy1e50GqeK7vVb6W+vL6W7vJSWkuJ3Lu5PUknk/jVOHULS/l8sstvK3c8I3+FYcqfhVTyyXPPGK1u1sCijrIbY6fqMMrDGxwxHqK+mvBsAeCCZFOx1BGK+TtP117ZVhuP3sI4w3VR7E/wAq+lPgl4ztNTsk02WdTLFgQueCR/dPuP1rws2pOrTU1uj0cHNQnZns+nWqSqu4fQitiPTHKZHJ9ahsLfIGM109hZEgMTgAdK+HkrH0UZNmDHZOj/Mpb6UT2xBJCkD0rqAiKclQQfUVl67cw2MZkO1IwMs3TFJK70K5jidcvk0+2luJZFiiiUl2bpivjv4pfECbx34hlMUjDTbdtsMeeDjjdXX/AB4+Mh8SX0+i6PIU09DtlnU/fPcfSvFGO1eOPYdRX22VYBU17ae54GMxPtHyR2Q4oCxyxP1pCpY4Ayaj8p92RzntWhawHGTncfyFfTHlEUcSwEALucirVtD5YLscn1PanNGFOPvN/dFSqpIBcjA6AdKpIkFk+oHv1NOyXI44phO84AwPeg5HGMfSm0Bct7uW3PyMa3/D/jnVPDeoRX2nX1xYXcTbkntZSjr7gjB/WuYUjHpQW+bINITPuH4O/wDBSz4geBxDba7cxeL9PXAMd+ds4HtKBnP1Br7O+FX/AAUG+F/xKVLbULyTwpqRAHlamAYSf9mQcf8AfWK/FEykYqxa6tcWsodHPHY1zyowl0sCbR/QxPqtnrFgt1Y3UN3ayDKTQSB0YdsEcV534liDOSDkA81+Qfwx/ad8ZfDGQHRtZurKDdueBX3Qt9UPy/pX2B8Nv+CgeieJYYbbxbb/AGK6ICteWoyhPqUJyPw4rlnQcfhE3zaH1vol6sRCk8jtXTx6wqIMkCvNfBfifRPG1sL7QdUttSg6sYJASuezDqp+uK6meGRY8YJ+lYfDuTZmtLrqMxXdzioI78Sy9a5qZJlc4BqxYGRGy3X3qeYFe+p6fDEFHce9WBCCRimqmfapl+RR3rzz1L2HRQfNg15D8dv2s/h9+z3ZyjXdUW91sJui0WxIkuH9Mjog92xXzL+2v+3pf+CNY1b4feBNtvqMIEV9rYbLQsRkpEB/EAcFu1fmpq+sXetX015e3Mt5dzMXlnmcu7sepJPevQo4VytKZzzq9EfU3x1/4KRfEr4pPNZaFcf8IZoTZX7Pp7fv5F/25ev4LivlPUNZu9UuZLi7uJLmeU7nllcszH1JPWqTMS2D9KRjtAJr1o04wVoowbb3YpYkHJzTUGc9qcD1ppGMmtLEkyxhlPOahaBlJ4OKerEEDOB71MWBA/pTsMzZoyfb61WZWU9OK1pIA4BGM1Ve3ZSe4qeUdzNZBJngg1o6Bq1zpF6ktvOY5EIIwfvexqvtAbHela0JO8HkVEoKSs9hn3L8C/iPD4+8PKZGVb62wk0eefrXtenxZQAfnX5oeE/EmoeHdQFxY3s1hM3yGSFsEHsfevX/AA5+2V4t8OAWmqWFlrAhOwykGKQ47krx+lfG4zK5qo3T1R7VDGRUUp7n2rewLFDyQea+Vf2n/i19kjfw1pc2LqX/AF8iH7i+n1NSy/tlpreh3zLoE9ncrGVSTzg6bj0HQH3r5k1a/utc1Oe+uGaW5mcuzt61WX5bJ1OeqtEGJxSceWDM57WRMg/ez8x96akIV/mB/SrRhIJ3kP6DrTksFI3OFX6ivtFG2iR4l+4iSoFxsGfUmpV3SJwTt9uKZtVDtRA2e+KsxwyTD5j8o7CrSJIs4BVAD6kZxSqhJ59KtJCsYwMVHkElcc07AM4PGPyppXDZJxTzlfamvIDjGSaRVxVOAf6UwthiOaAjMePyqZLY4ye1FrkkOScDtTo4iozj86scIMAVC8voc570WARwVOSaSO4KNleD6jrTDukyRzTo4ieSaLdgOu8F/FXxJ4C1SG+0XVbmxnjOQ8Tlc+xx1Hsa+8/2ef8AgofpniR7bRPiJEljckBF1eBfkY+sidvqOPavzecYpmSrhlYq394VhUpxmtUC0P36sksdc06DUNNuIb+yuFDxXEDh0cHuD3pv9miJuRX5M/sw/tg+JPgbqSW0kran4fkOJ9Nmc7cH+JM/db9PXPFfqh8Mfiz4a+M3hmHXPDd8l1bsAssJ4lt3xko69jXl1KTpmqs15nqEkeyRl9CRXm37RXxetfgh8JNd8UzlGuIITHaQscebO3CL+fP0Br1TVYfI1KdOg3bh+PP9a/KX/gqB8cP+Eo+IVj4D0+4J0/QlEt2FPytcuOB77VOP+BGuWhTdSaRvOXKj4w8S6/d+JNavdTvpWuL28meeaVurOxyT+tZWCW7ilnByuCcdcUoGQSetfRpWRyCEcZHX1pjkkZ/lT4znNJjnIH5U7CIxkkCng5yOcVIIwO2DTSuAeOneixWgjITyB+VJtZcHipYsYNSYDZ9PWmGhHFIO/Jp2VOcg0GE5wKQKckEU9ySCezDAso5qCAEnDDmtEPjg9Kjmt+QyijlGRiA5J6Ail1m2eae0dEZ3nRVA243NnHGOtPWQhW3AjivpDwx/wjHhb4TwXt9p1vf3sok3LvHmwkIPLI7jLsTn0WuHE+7ZdWVHW54De2AsYodNTB8nmQd2fuf6VTcbBtRavXdwBK8jfxEnHUis9pGlJwMA9Sa7KcOSKJuMLJH90Fm/OhYpJG3E/hU8VuEOTyakJ28gVoIIolijyQM0rOq/d9O1RuxI9veoskEetADzN14phYE5xzThHwQBQsWTkjigCNSXOOakihzjOBTggRgfWlZsHjrTsA/CoD3NRPMOQOmaVjuHTnFRlc/SpsAxmJ79ackJcc9KkWEZBNTBcLwPwNACIiolQO+SRTpX2DFEEW85NPyAj2lhnFRlSGA61anwg2jk0yOLIyf8ipaAjiR2kGwHIPGK9R+EvxD8U+BvFOnyeGtUuLC/mnjRfJYgSEsAFYdGyT0INeeW6CJkc8DsK9k/ZC8FP8Rf2mvhxogQyR/2xDdzKBnMMB8+QH6pEw/Gsp2UW2NH7afHXxdZ/DTwDrPjG94tdLtHllGcZIHyj8TgfiK/nq8d+Lbzxv4s1jxBqEhkvNSunuZCTn5mJPH51/Rz8RvAOkfFPwJrvhLXoTPpOsWj2lwq8MoYcMp7MpwwPYgGv58P2jPgF4k/Zu+Jep+DvEkWXi/e2V+ikRX1sSQkyexwQR/CwZT0rysE46rqbT1PPzlgPT1oxjJzxR2XtxTiuRnv617JmNjJOfQ0YI+tPXAHanY6e9AmhFbJ680Fcg8Y/rSKpDE849zTi3v+FBIwIRzg4qQMR/8ArpxwQKVU75zVAKrHGTS8MTSHr7Uqgdhj2pgNMXHrS5JAH/16emQcf1p4GDQAkNv588MQ5MjqgHfJOK9I8fGysPDVqtpGBLdyKJZAhUtsHfOM9a89tS63cTRHbIrAqwxwe3Wun8X6nPeG1trmfzmtowFxGqAZ6/driqR560fIa0TOSnY8nsOgpgXIz0qWXsMc1GY2A9BXclcQ4EkYB5pj5HA5xTihNNCnPoPXrTtYATJHTmk2YOcZ+lSCPpjqf0pdhUZP5ikAiDFR7ycipMfrSbTuPPHvSAaCMj1pSo5JHNKVAOeCaAMmhXAYVxkAUsajJJ4qTAGfWkUcn3p2AcMHk849Ka8gVTjAp2DiopFzwB3oAjVPOcelW48IuB2pscaqno1MdtiNnvRYCNgXnY9QOaXfn5M9R+lEPKc85qvvLSrgfeap8gNGYlQgPYV+lX/BIz4GSte+IvixqMG2BY20bSd6/fYlWuJR9AEQEdd0g7V8LfAn4HeJP2iPiVpng/w3Bm4nbzLm8dSYbK3GN80h9BngdWJCjkiv30+F/wAOdG+Efw+0HwdoEPkaTpFqttCCBucjlpGx1Z2LMx7ljXm42qox9mt2aQjd3Oprw/8Aaz/ZT8N/tXfDs6Fqz/2ZrdmWm0nW44w8lnKRyCON0bYAZMjOARggEe4UV4kZOLutzc/nS+OfwC8Zfs7eNJPDPjLTDZ3IBe2u4svbXsQOBLC+PmXpxwQeGAPFeeE5GOce/Sv6O/i18GfBvxy8KSeHfG2hW+uaax3xiUFZYHxjzIpFw0be6kcZByCRX5l/H3/gkb4t8Mzz6l8K9Uj8XaWSWGkanIlvfxD0WQ4il+p8s+xr26OLjNWnozFxa2Pz4ALcc04KWI4x9a6zxz8KPGvwxvHtfFvhPV/DcobaDqVlJCrn/ZZhtYe4JFcqikjORivQTT2IYBcHJ5HtUhQMeB+dIO1OHyrg9fzqrEiFQMDvT0Tb2/Cmgnr0/rUp+YAVSQDSvJ4pu0nODxUmAPahRk44oARAe45ApzHocYNLkKQAfwoVfmyaNANPwnZrda0m/wD1cXztn0HNQ6rdG61GeYfcLHA9q3PCtoE0jVL5lI2II1OcZJrnW4c1y0/eqyl20G9Eiu3zP7Uh3FiTnFSZy3SlAye2K6xDcb1yPwpdo546dqX7pyOBTeemetMBVTPQcCnZwKUE46cUEDHXBoAaE3dOPamGM+v69adtxznr60DoaQDQuTjgmgLkjrinhdp6596cVwAeM0WAjKYPGTTSuB0/OpUXg+tDL8o/nTAZnCDrzSICST1A9aUrlcE8Clz2H40LUBrdSe9QXZLRhR1P6VYJABzg/Wug8C/C7xh8TtSW18K+F9X8RTbtu3TbKSdVP+0yghR7kgClKyV2BzPllI9uMEDGa7X4G/A/xf8AtA+Prbw14O0xr68K75p3ytvaR5wZZnwQqj8yeACSBX2Z8Cf+CTHjDxXPDqHxQ1NPCGl/ebS9PkS4v5QeoLjMcX1y59VFfpV8IPgj4K+A/hZfD/gjQrfRbAkPM6Zaa5cDG+WRss7e5PHQYHFeXWxkIaQ1ZooN7nFfso/sreHf2WfAbaTpzjU9fvisura08YR7mQDhVHO2NcnauT1JPJNe30UV4cpOb5pbm+wUUUVIBRRRQBz/AI9/5E/U/wDrmP8A0IV+C37Tn/JULn/riv8AM0UV6uA+Jmc9jyQdvrRJRRXtmA5alXoKKKa3AaOhpV+8PpRRTYCv94U/t+Booo6AzuvC/wDyImp/74/pXHSfeeiiuPD/ABS9Sn0K7fdFKO9FFdpIDo1M7rRRQBJH0FI3+roooAc/U/hSr1H0oooARfvx/SnTf6s/jRRQMP4R9KcegooqmS9yA9fzpv8AEPqf6UUVK3KPUv2cP+SoWn/XI/8AoaV+8nw4/wCRJ0r/AK5n/wBCNFFeJmO6NoHS0UUV45oFFFFAH//Z" alt="Luis Miguel Marte"/>
-      </div>
-      <div class="hero-text">
-        <div class="hero-name">Luis Miguel Marte<span class="cursor"></span></div>
-        <div class="hero-title"><span>Analista de Reporting Financiero</span> y Control de Datos</div>
-        <div class="contact-line">
-          <span>📍 Madrid</span>
-          <span>·</span><a href="tel:+34641271972">641 27 19 72</a>
-          <span>·</span><a href="mailto:lmiguelmarter@gmail.com">lmiguelmarter@gmail.com</a>
-          <span>·</span><a href="https://www.linkedin.com/in/luis-miguel-marte-" target="_blank">LinkedIn ↗</a>
-          <span>·</span><span>Permiso UE +5 años</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 1. PERFIL -->
-    <div class="section">
-      <div class="sq">
-        <span class="kw">SELECT</span> <span class="fn">CONCAT</span><span class="op">(</span><span class="str">'perfil'</span><span class="op">,</span><span class="str">'+'</span><span class="op">,</span><span class="str">'resumen'</span><span class="op">)</span> <span class="kw">AS</span> <span class="col">presentacion</span><span class="op">;</span>
-        <span style="float:right;font-size:10px;margin-top:2px">-- 1. perfil profesional</span>
-      </div>
-      <div class="profile-box">
-        Analista financiero con más de <span class="hl-green">3 años de experiencia</span> en entornos bancarios de alta exigencia, especializado en <span class="hl-blue">reporting de gestión y regulatorio</span>, reconciliación de datos y control financiero. Experto en consolidar y validar información procedente de múltiples sistemas, elaborar informes para dirección y mejorar la calidad del dato. Manejo avanzado de <span class="hl-orange">SQL, Power BI y Excel (MOS)</span>. Perfil orientado a resultados, acostumbrado a plazos ajustados y colaboración con equipos de negocio y tecnología.
-      </div>
-      <div class="rows">-- <span>1</span> row returned · 0 errors</div>
-    </div>
-
-    <!-- 2. EXPERIENCIA -->
-    <div class="section">
-      <div class="sq">
-        <span class="kw">SELECT</span> <span class="col">cargo</span><span class="op">,</span><span class="col">empresa</span><span class="op">,</span><span class="col">periodo</span><span class="op">,</span><span class="col">logros_clave</span>
-        <span class="kw">FROM</span> <span class="tbl">experiencia</span>
-        <span class="kw">ORDER BY</span> <span class="col">fecha_inicio</span> <span class="kw">DESC</span><span class="op">;</span>
-        <span style="float:right;font-size:10px;margin-top:2px">-- 2. experiencia profesional</span>
-      </div>
-      <table class="sql-table">
-        <thead><tr><th>cargo</th><th>empresa</th><th>periodo</th><th>logros_clave</th></tr></thead>
-        <tbody>
-          <tr>
-            <td class="c-cargo">Analista Reporting Financiero y Control</td>
-            <td class="c-emp">Banco Popular</td>
-            <td class="c-per">Sep 2024 – Jul 2025</td>
-            <td class="c-log"><ul>
-              <li>Consolidación y automatización de flujos de reporting regulatorio y de gestión mediante SQL, integrando datos de múltiples sistemas internos y mejorando la trazabilidad del dato en el cierre periódico.</li>
-              <li>Reconciliación y validación de datos financieros entre sistemas de origen y capas de reporting, con identificación de discrepancias y coordinación de su resolución con áreas de negocio y TI.</li>
-              <li>Diseño y mantenimiento de cuadros de mando en Power BI para seguimiento de KPIs financieros (márgenes, variaciones presupuestarias, evolución de cartera), con distribución periódica a dirección.</li>
-              <li>Colaboración con equipos técnicos en detección de errores sistémicos y documentación de procesos de reporting regulatorio, contribuyendo a la mejora de la calidad del dato.</li>
-            </ul></td>
-          </tr>
-          <tr>
-            <td class="c-cargo">Analista Seguimiento Cartera de Crédito</td>
-            <td class="c-emp">Banco Popular</td>
-            <td class="c-per">Mar 2023 – Sep 2024</td>
-            <td class="c-log"><ul>
-              <li>Validación y contraste de datos financieros de múltiples fuentes de reporting interno mediante SQL y SAS, garantizando consistencia y fiabilidad antes de su distribución a dirección y riesgos.</li>
-              <li>Elaboración de informes analíticos de seguimiento de cartera crediticia (exposición, concentración, morosidad, LTV) para alta dirección y área de riesgos, con periodicidad mensual y trimestral.</li>
-              <li>Seguimiento de indicadores clave de riesgo de crédito y soporte analítico directo a la función de control en la toma de decisiones.</li>
-              <li>Extracción, transformación y consolidación de información de reporting en plataformas internas (SQL, SAS Enterprise), contribuyendo a la estandarización del proceso.</li>
-            </ul></td>
-          </tr>
-          <tr>
-            <td class="c-cargo">Analista Junior Control Operacional</td>
-            <td class="c-emp">BANDEX</td>
-            <td class="c-per">Abr 2021 – Abr 2023</td>
-            <td class="c-log"><ul>
-              <li>Soporte a procesos de control interno financiero-operacional y elaboración de informes de gestión para dirección general.</li>
-            </ul></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="rows">-- <span>3</span> rows returned · ORDER BY fecha_inicio DESC</div>
-    </div>
-
-    <!-- 3. FORMACIÓN -->
-    <div class="section">
-      <div class="sq">
-        <span class="kw">SELECT</span> <span class="col">titulacion</span><span class="op">,</span><span class="col">institucion</span><span class="op">,</span><span class="col">anio_fin</span>
-        <span class="kw">FROM</span> <span class="tbl">formacion</span>
-        <span class="kw">WHERE</span> <span class="col">nivel</span> <span class="kw">IN</span> <span class="op">(</span><span class="str">'master'</span><span class="op">,</span><span class="str">'grado'</span><span class="op">,</span><span class="str">'certificacion'</span><span class="op">)</span><span class="op">;</span>
-        <span style="float:right;font-size:10px;margin-top:2px">-- 3. formación académica</span>
-      </div>
-      <table class="sql-table">
-        <thead><tr><th>titulacion</th><th>institucion</th><th>anio_fin</th></tr></thead>
-        <tbody>
-          <tr><td class="c-cargo">Programa de Actualización Profesional</td><td class="c-emp">Santander Open Academy</td><td class="c-per">2026</td></tr>
-          <tr><td class="c-cargo">Máster en Finanzas</td><td class="c-emp">EUDE Business School, Madrid</td><td class="c-per">2024</td></tr>
-          <tr><td class="c-cargo">ISO 31000 Certified Risk Manager (CeRM)</td><td class="c-emp">The Organization of Risk Management Certificacion, London</td><td class="c-per">2023</td></tr>
-          <tr><td class="c-cargo">Grado en Administración y Dirección de Empresas</td><td class="c-emp">INTEC, Santo Domingo</td><td class="c-per">2022</td></tr>
-        </tbody>
-      </table>
-      <div class="rows">-- <span>3</span> rows returned</div>
-    </div>
-
-    <!-- 4. CERTIFICADOS -->
-    <div class="section">
-      <div class="sq">
-        <span class="kw">SELECT</span> <span class="col">*</span> <span class="kw">FROM</span> <span class="tbl">certificaciones</span>
-        <span class="kw">WHERE</span> <span class="col">emisor</span> <span class="op">=</span> <span class="str">'Santander Open Academy'</span>
-        <span class="kw">ORDER BY</span> <span class="col">fecha_obtencion</span> <span class="kw">DESC</span><span class="op">;</span>
-        <span style="float:right;font-size:10px;margin-top:2px">-- 4. certificaciones 2026</span>
-      </div>
-      <div class="certs-grid">
-        <div class="cert-card" onclick="openModal('excel')">
-          <div class="cert-icon">📊</div>
-          <div class="cert-title">Excel – De Intermedio a Avanzado</div>
-          <div class="cert-meta">Santander Open Academy · Abr 2026 · 8h</div>
-          <div class="cert-badge">✓ verificado</div>
-        </div>
-        <div class="cert-card" onclick="openModal('datos')">
-          <div class="cert-icon">🔬</div>
-          <div class="cert-title">Introducción a la Ciencia de Datos</div>
-          <div class="cert-meta">Santander Open Academy · Abr 2026 · 6h</div>
-          <div class="cert-badge">✓ verificado</div>
-        </div>
-        <div class="cert-card" onclick="openModal('python')">
-          <div class="cert-icon">🐍</div>
-          <div class="cert-title">Python</div>
-          <div class="cert-meta">Santander Open Academy · Ene 2026 · 8h</div>
-          <div class="cert-badge">✓ verificado</div>
-        </div>
-        <div class="cert-card" onclick="openModal('copilot')">
-          <div class="cert-icon">🤖</div>
-          <div class="cert-title">Microsoft Copilot</div>
-          <div class="cert-meta">Santander Open Academy · Ene 2026 · 8h</div>
-          <div class="cert-badge">✓ verificado</div>
-        </div>
-      </div>
-      <div class="rows">-- <span>4</span> rows returned · click en cada tarjeta para ver detalles</div>
-    </div>
-
-    <!-- 5. HABILIDADES -->
-    <div class="section">
-      <div class="sq">
-        <span class="kw">SELECT</span> <span class="col">herramienta</span><span class="op">,</span><span class="col">nivel</span><span class="op">,</span><span class="col">notas</span>
-        <span class="kw">FROM</span> <span class="tbl">skills</span> <span class="kw">ORDER BY</span> <span class="col">nivel</span> <span class="kw">DESC</span><span class="op">;</span>
-        <span style="float:right;font-size:10px;margin-top:2px">-- 5. habilidades técnicas</span>
-      </div>
-      <div class="skills-grid">
-        <div class="sk"><div class="sk-label">herramienta</div><div class="sk-val">SQL</div><div class="bar"><div class="bd bf"></div><div class="bd bf"></div><div class="bd bf"></div><div class="bd bf"></div><div class="bd bm"></div></div><div class="sk-note">consultas complejas · joins · validación</div></div>
-        <div class="sk"><div class="sk-label">herramienta</div><div class="sk-val">Excel avanzado</div><div class="bar"><div class="bd bf"></div><div class="bd bf"></div><div class="bd bf"></div><div class="bd bf"></div><div class="bd bf"></div></div><div class="sk-note">MOS · tablas dinámicas · Power Query</div></div>
-        <div class="sk"><div class="sk-label">herramienta</div><div class="sk-val">Power BI</div><div class="bar"><div class="bd bf"></div><div class="bd bf"></div><div class="bd bf"></div><div class="bd bm"></div><div class="bd"></div></div><div class="sk-note">dashboards · DAX · modelado datos</div></div>
-        <div class="sk"><div class="sk-label">herramienta</div><div class="sk-val">SAS Enterprise</div><div class="bar"><div class="bd bf"></div><div class="bd bf"></div><div class="bd bf"></div><div class="bd"></div><div class="bd"></div></div><div class="sk-note">análisis estadístico · datos</div></div>
-        <div class="sk"><div class="sk-label">herramienta</div><div class="sk-val">Python</div><div class="bar"><div class="bd bf"></div><div class="bd bf"></div><div class="bd bm"></div><div class="bd"></div><div class="bd"></div></div><div class="sk-note">pandas · numpy · automatización</div></div>
-        <div class="sk"><div class="sk-label">entorno</div><div class="sk-val">Banca regulada</div><div class="bar"><div class="bd bf"></div><div class="bd bf"></div><div class="bd bf"></div><div class="bd bf"></div><div class="bd bm"></div></div><div class="sk-note">reporting regulatorio · Agile · KPIs</div></div>
-      </div>
-      <div class="rows">-- <span>6</span> rows returned · ORDER BY nivel DESC</div>
-    </div>
-
-    <!-- 6. COMPETENCIAS -->
-    <div class="section">
-      <div class="sq">
-        <span class="kw">SELECT</span> <span class="col">competencia</span> <span class="kw">FROM</span> <span class="tbl">skills</span> <span class="kw">WHERE</span> <span class="col">tipo</span> <span class="op">=</span> <span class="str">'domain'</span><span class="op">;</span>
-        <span style="float:right;font-size:10px;margin-top:2px">-- 6. palabras clave ATS</span>
-      </div>
-      <div class="pills">
-        <span class="pill">Reporting financiero regulatorio</span>
-        <span class="pill">Reconciliación de datos</span>
-        <span class="pill">Control financiero</span>
-        <span class="pill">Validación de datos</span>
-        <span class="pill">Análisis de riesgo de crédito</span>
-        <span class="pill">Cuadros de mando</span>
-        <span class="pill">KPIs financieros</span>
-        <span class="pill">Calidad del dato</span>
-        <span class="pill">Entornos bancarios regulados</span>
-        <span class="pill">Metodología Agile</span>
-        <span class="pill">Inteligencia Artificial</span>
-        <span class="pill">Microsoft Copilot</span>
-        <span class="pill">Ciencia de datos</span>
-      </div>
-      <div class="rows">-- <span>13</span> rows returned</div>
-    </div>
-
-    <!-- 7. IDIOMAS -->
-    <div class="section">
-      <div class="sq">
-        <span class="kw">SELECT</span> <span class="col">idioma</span><span class="op">,</span><span class="col">nivel</span> <span class="kw">FROM</span> <span class="tbl">idiomas</span><span class="op">;</span>
-        <span style="float:right;font-size:10px;margin-top:2px">-- 7. idiomas</span>
-      </div>
-      <table class="sql-table">
-        <thead><tr><th>idioma</th><th>nivel</th></tr></thead>
-        <tbody>
-          <tr><td class="c-cargo">Español</td><td class="c-emp">Nativo</td></tr>
-          <tr><td class="c-cargo">Inglés</td><td class="c-emp">Avanzado (C1)</td></tr>
-        </tbody>
-      </table>
-      <div class="rows">-- <span>2</span> rows returned</div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="dl-section">
-      <div style="font-size:11px;color:var(--text-muted);font-style:italic">
-        -- query ejecutada correctamente · 0 errores · listo para entrevista
-      </div>
-      <div class="dl-row">
-        <a class="btn" href="mailto:lmiguelmarter@gmail.com">
-          <span>▶</span> contactar por email
-        </a>
-        <a class="btn btn-blue" href="https://www.linkedin.com/in/luis-miguel-marte-" target="_blank">
-          <span>↗</span> ver LinkedIn
-        </a>
-      </div>
-      <div class="dl-note">-- Madrid · disponibilidad inmediata · permiso de trabajo UE +5 años</div>
-    </div>
-
-  </div><!-- /terminal -->
-</div><!-- /shell -->
-
-<!-- MODAL CERTIFICADOS -->
-<div class="modal-overlay" id="modal" onclick="closeModal(event)">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModalDirect()">✕</button>
-    <div class="modal-title" id="m-title"></div>
-    <div class="modal-subtitle" id="m-sub"></div>
-    <div class="modal-detail">
-      <div class="modal-row"><div class="modal-row-label">emisor</div><div class="modal-row-val" id="m-emisor"></div></div>
-      <div class="modal-row"><div class="modal-row-label">fecha</div><div class="modal-row-val" id="m-fecha"></div></div>
-      <div class="modal-row"><div class="modal-row-label">duración</div><div class="modal-row-val" id="m-dur"></div></div>
-      <div class="modal-row"><div class="modal-row-label">módulos</div><div class="modal-row-val" id="m-mod"></div></div>
-    </div>
-    <div class="modal-serial">-- número de serie: <span id="m-serial"></span></div>
-  </div>
-</div>
-
-<script>
-const certs = {
-  excel:  { title:'Excel – De Intermedio a Avanzado', sub:'Certificado de finalización · Santander Open Academy', emisor:'Santander Open Academy', fecha:'13 de abril de 2026', dur:'8 horas', mod:'2 módulos + autoevaluación', serial:'OA-2026-0413002474849' },
-  datos:  { title:'Introducción a la Ciencia de Datos', sub:'Certificado de finalización · Santander Open Academy', emisor:'Santander Open Academy', fecha:'17 de abril de 2026', dur:'6 horas', mod:'2 módulos + autoevaluación', serial:'OA-2026-0417002493421' },
-  python: { title:'Python', sub:'Certificado de finalización · Santander Open Academy', emisor:'Santander Open Academy', fecha:'28 de enero de 2026', dur:'8 horas', mod:'2 módulos + autoevaluación', serial:'OA-2026-0128002203181' },
-  copilot:{ title:'Microsoft Copilot', sub:'Certificado de finalización · Santander Open Academy', emisor:'Santander Open Academy', fecha:'10 de enero de 2026', dur:'8 horas', mod:'2 módulos + autoevaluación', serial:'OA-2026-0110002147381' }
-};
-function openModal(id) {
-  const c = certs[id];
-  document.getElementById('m-title').textContent = c.title;
-  document.getElementById('m-sub').textContent = c.sub;
-  document.getElementById('m-emisor').textContent = c.emisor;
-  document.getElementById('m-fecha').textContent = c.fecha;
-  document.getElementById('m-dur').textContent = c.dur;
-  document.getElementById('m-mod').textContent = c.mod;
-  document.getElementById('m-serial').textContent = c.serial;
-  document.getElementById('modal').classList.add('open');
-}
-function closeModal(e) { if(e.target===document.getElementById('modal')) closeModalDirect(); }
-function closeModalDirect() { document.getElementById('modal').classList.remove('open'); }
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalDirect(); });
-</script>
-</body>
-</html>
+curriculum_vitae.sql — versión 2026
+activo en búsqueda
+curriculum_vitae.sql
+-- ============================================
+-- curriculum_vitae.sql
+-- candidato : Luis Miguel Marte
+-- versión : 2026
+-- estado : disponible · Madrid · permiso UE
+-- ============================================
+Luis Miguel Marte
+Luis Miguel Marte
+Analista de Reporting Financiero y Control de Datos
+📍 Madrid
+·
+641 27 19 72
+·
+lmiguelmarter@gmail.com
+·
+LinkedIn ↗
+·
+Permiso UE +5 años
+SELECT CONCAT('perfil','+','resumen') AS presentacion;-- 1. perfil profesional
+Analista financiero con 4 años de experiencia en entornos bancarios de alta exigencia, especializado en reporting de gestión y regulatorio, reconciliación de datos y control financiero. Experto en consolidar y validar información procedente de múltiples sistemas, elaborar informes para dirección y mejorar la calidad del dato. Manejo avanzado de SQL, Power BI y Excel (MOS). Perfil orientado a resultados, acostumbrado a plazos ajustados y colaboración con equipos de negocio y tecnología.
+-- 1 row returned · 0 errors
+SELECT cargo,empresa,periodo,logros_clave FROM experiencia ORDER BY fecha_inicio DESC;-- 2. experiencia profesional
+cargo	empresa	periodo	logros_clave
+Analista Reporting Financiero y Control	Banco Popular	Sep 2024 – Jul 2025	
+Consolidación y automatización de flujos de reporting regulatorio y de gestión mediante SQL, integrando datos de múltiples sistemas internos y mejorando la trazabilidad del dato en el cierre periódico.
+Reconciliación y validación de datos financieros entre sistemas de origen y capas de reporting, con identificación de discrepancias y coordinación de su resolución con áreas de negocio y TI.
+Diseño y mantenimiento de cuadros de mando en Power BI para seguimiento de KPIs financieros (márgenes, variaciones presupuestarias, evolución de cartera), con distribución periódica a dirección.
+Colaboración con equipos técnicos en detección de errores sistémicos y documentación de procesos de reporting regulatorio, contribuyendo a la mejora de la calidad del dato.
+Analista Seguimiento Cartera de Crédito	Banco Popular	Mar 2023 – Sep 2024	
+Validación y contraste de datos financieros de múltiples fuentes de reporting interno mediante SQL y SAS, garantizando consistencia y fiabilidad antes de su distribución a dirección y riesgos.
+Elaboración de informes analíticos de seguimiento de cartera crediticia (exposición, concentración, morosidad, LTV) para alta dirección y área de riesgos, con periodicidad mensual y trimestral.
+Seguimiento de indicadores clave de riesgo de crédito y soporte analítico directo a la función de control en la toma de decisiones.
+Extracción, transformación y consolidación de información de reporting en plataformas internas (SQL, SAS Enterprise), contribuyendo a la estandarización del proceso.
+Analista Junior Control Operacional	BANDEX	Abr 2021 – Abr 2023	
+Soporte a procesos de control interno financiero-operacional y elaboración de informes de gestión para dirección general.
+-- 3 rows returned · ORDER BY fecha_inicio DESC
+SELECT titulacion,institucion,anio_fin FROM formacion WHERE nivel IN ('master','grado','certificacion');-- 3. formación académica
+titulacion	institucion	anio_fin
+Programa de Actualización Profesional	Santander Open Academy	2026
+Máster en Finanzas	EUDE Business School, Madrid	2024
+Grado en Administración y Dirección de Empresas	INTEC, Santo Domingo	2022
+-- 3 rows returned
+SELECT * FROM certificaciones WHERE emisor = 'Santander Open Academy' ORDER BY fecha_obtencion DESC;-- 4. certificaciones 2026
+📊
+Excel – De Intermedio a Avanzado
+Santander Open Academy · Abr 2026 · 8h
+✓ verificado
+🔬
+Introducción a la Ciencia de Datos
+Santander Open Academy · Abr 2026 · 6h
+✓ verificado
+🐍
+Python
+Santander Open Academy · Ene 2026 · 8h
+✓ verificado
+🤖
+Microsoft Copilot
+Santander Open Academy · Ene 2026 · 8h
+✓ verificado
+-- 4 rows returned · click en cada tarjeta para ver detalles
+SELECT herramienta,nivel,notas FROM skills ORDER BY nivel DESC;-- 5. habilidades técnicas
+herramienta
+SQL
+consultas complejas · joins · validación
+herramienta
+Excel avanzado
+MOS · tablas dinámicas · Power Query
+herramienta
+Power BI
+dashboards · DAX · modelado datos
+herramienta
+SAS Enterprise
+análisis estadístico · datos
+herramienta
+Python
+pandas · numpy · automatización
+entorno
+Banca regulada
+reporting regulatorio · Agile · KPIs
+-- 6 rows returned · ORDER BY nivel DESC
+SELECT competencia FROM skills WHERE tipo = 'domain';-- 6. palabras clave ATS
+Reporting financiero regulatorio
+Reconciliación de datos
+Control financiero
+Validación de datos
+Análisis de riesgo de crédito
+Cuadros de mando
+KPIs financieros
+Calidad del dato
+Entornos bancarios regulados
+Metodología Agile
+Inteligencia Artificial
+Microsoft Copilot
+Ciencia de datos
+-- 13 rows returned
+SELECT idioma,nivel FROM idiomas;-- 7. idiomas
+idioma	nivel
+Español	Nativo
+Inglés	Avanzado (C1)
+-- 2 rows returned
+SELECT match_score,fortalezas,gaps,recomendacion FROM candidato JOIN oferta_trabajo ON candidato.perfil = oferta.requisitos;-- 8. ¿soy el candidato ideal?
+🎯
+Analizador de compatibilidad
+powered by IA · respuesta en ~10s
+-- Pega aquí la descripción de la oferta de trabajo...
+-- Ejemplo: 'Buscamos analista financiero con experiencia en reporting, SQL y Power BI...'
+ 
+▶
+EXECUTE MATCH_ANALYSIS()
+-- query ejecutada correctamente · 0 errores · listo para entrevista
+▶
+contactar por email
+↗
+ver LinkedIn
+-- Madrid · disponibilidad inmediata · permiso de trabajo UE +5 años
